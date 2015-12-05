@@ -1,2 +1,8 @@
 # simple-canvas-app
-Basic template for canvas unig app (phaser + gulp, no bower)
+Basic template for canvas usig app (gulp, sass, jshint, phaser, no bower)
+
+
+### Start
+npm i && gulp
+
+Run gulp:dist to minifi files & stuff
