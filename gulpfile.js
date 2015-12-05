@@ -20,7 +20,7 @@ gulp.task('connect', function() {
     SRC + '/**/*.html',
     SRC + '/assets/**/*'
   ]).on('change', function() {
-    gulp.start('usemin', browserSync.reload);
+    gulp.start('usemin:sass');
   });
 
   gulp.watch(SRC + '/scss/*.scss', ['usemin:sass']);
