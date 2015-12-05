@@ -3,6 +3,7 @@ var DST = './dist';
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
+var sass = require('gulp-sass');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var minifyHtml = require('gulp-minify-html');
@@ -16,11 +17,13 @@ gulp.task('connect', function() {
   browserSync({server: DST});
   browserSync.watch([
     SRC + '/**/*.js',
-    SRC + '/*.html',
+    SRC + '/**/*.html',
     SRC + '/assets/**/*'
   ]).on('change', function() {
     gulp.start('usemin', browserSync.reload);
   });
+
+  gulp.watch(SRC + '/scss/*.scss', ['usemin:sass']);
 });
 
 gulp.task('jslint', function() {
@@ -43,20 +46,35 @@ gulp.task('copy', ['clean'], function() {
 });
 
 gulp.task('usemin', ['copy'], function() {
-  return gulp.src(SRC + '/index.html').pipe(usemin()).pipe(gulp.dest(DST));
+  return gulp.src(SRC + '/index.html').pipe(usemin({
+    scss: [sass()]
+  })).pipe(browserSync.stream()).pipe(gulp.dest(DST));
 });
 
-gulp.task('useminAll', ['copy'], function() {
+gulp.task('usemin:sass', ['copy'], function() {
+  return gulp.src(SRC + '/index.html').pipe(usemin({
+    options: {
+      flow: {
+        steps: {
+          scss: [sass()]
+        },
+        post: {}
+      }
+    }
+  })).pipe(gulp.dest(DST)).pipe(browserSync.stream());
+});
+
+gulp.task('usemin:all', ['copy'], function() {
   return gulp.src(SRC + '/index.html').pipe(usemin({
     js: [uglify({
       preserveComments: true
     }), rev()],
-    css: [minifyCss(), rev()],
+    scss: [sass(), minifyCss(), rev()],
     html: [minifyHtml()]
   })).pipe(gulp.dest(DST));
 });
 
-gulp.task('stripDebug', ['useminAll'], function() {
+gulp.task('stripDebug', ['usemin:all'], function() {
   return gulp.src(DST + '/*.js').pipe(stripDebug()).pipe(gulp.dest(DST));
 });
 
