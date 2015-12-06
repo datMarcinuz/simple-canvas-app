@@ -15,13 +15,12 @@ var jshint = require('gulp-jshint');
 
 gulp.task('connect', function() {
   browserSync({server: DST});
-  browserSync.watch([
+
+  gulp.watch([
     SRC + '/**/*.js',
     SRC + '/**/*.html',
     SRC + '/assets/**/*'
-  ]).on('change', function() {
-    gulp.start('usemin:sass');
-  });
+  ], ['usemin', browserSync.reload]);
 
   gulp.watch(SRC + '/scss/*.scss', ['usemin:sass']);
 });
@@ -48,13 +47,13 @@ gulp.task('copy', ['clean'], function() {
 gulp.task('usemin', ['copy'], function() {
   return gulp.src(SRC + '/index.html').pipe(usemin({
     scss: [sass()]
-  })).pipe(browserSync.stream()).pipe(gulp.dest(DST));
+  })).pipe(gulp.dest(DST));
 });
 
-gulp.task('usemin:sass', ['copy'], function() {
+gulp.task('usemin:sass', function() {
   return gulp.src(SRC + '/index.html').pipe(usemin({
     scss: [sass()]
-  })).pipe(gulp.dest(DST)).pipe(browserSync.stream());
+  })).pipe(gulp.dest(DST)).pipe(browserSync.stream({match: "**/*.css"}));
 });
 
 gulp.task('usemin:all', ['copy'], function() {
