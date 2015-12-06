@@ -53,14 +53,7 @@ gulp.task('usemin', ['copy'], function() {
 
 gulp.task('usemin:sass', ['copy'], function() {
   return gulp.src(SRC + '/index.html').pipe(usemin({
-    options: {
-      flow: {
-        steps: {
-          scss: [sass()]
-        },
-        post: {}
-      }
-    }
+    scss: [sass()]
   })).pipe(gulp.dest(DST)).pipe(browserSync.stream());
 });
 
