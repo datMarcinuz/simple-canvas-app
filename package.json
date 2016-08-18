@@ -8,13 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/datMarcinuz/simple-canvas-app.git"
+    "url": "https://github.com/e9aru/simple-canvas-app.git"
   },
-  "author": "datMarcinuz <marcin@marzewski.pl>",
+  "author": "e9aru <hi@e9aru.io>",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.10.0",
     "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-clean": "^0.3.1",
     "gulp-jshint": "^2.0.0",
     "gulp-minify-css": "^1.2.2",
