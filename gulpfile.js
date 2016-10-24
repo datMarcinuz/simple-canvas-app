@@ -27,9 +27,13 @@ gulp.task('connect', function() {
 });
 
 gulp.task('jslint', function() {
+  // Just add "/*global window */" to global scoped (usually  first) file
+
   return gulp.src(SRC + '/js/*.js')
     .pipe(jshint({
-      lastsemic: true
+      "lastsemic": true,
+      "node": true,
+      "-W008": true
     }))
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));
@@ -41,7 +45,11 @@ gulp.task('clean', ['jslint'], function() {
 
 gulp.task('copy', ['clean'], function() {
   return gulp.src([
-    SRC + '/assets/**/*'
+    SRC + '/assets/**/*',
+    SRC + '/images/**/*',
+    SRC + '/sounds/**/*',
+    SRC + '/atlases/**/*',
+    SRC + '/data/**/*'
   ], {base: SRC}).pipe(gulp.dest(DST));
 });
 
